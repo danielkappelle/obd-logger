@@ -3,6 +3,7 @@ from obd_connection import ObdConnection
 from dotenv import load_dotenv
 import logging
 import os
+import threading
 
 file_formatter = logging.Formatter(
     "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -38,6 +39,19 @@ def callback(field_name, value):
 
 
 obd = ObdConnection("/dev/ttys008", callback)
+
+progress_chars = ["|", "/", "-", "\\"]
+progress_i = 0
+
+
+def print_progress():
+    global progress_chars, progress_i
+    print("\r" + progress_chars[progress_i], end="", flush=True)
+    progress_i = (progress_i + 1) % len(progress_chars)
+    threading.Timer(1.0, print_progress).start()
+
+
+print_progress()
 
 while True:
     pass
