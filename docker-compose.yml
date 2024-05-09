@@ -1,0 +1,22 @@
+version: '1.0'
+
+services:
+  influx:
+    image: influxdb:latest
+    container_name: obd-logger
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: root
+      DOCKER_INFLUXDB_INIT_PASSWORD: Welcome010
+      DOCKER_INFLUXDB_INIT_ORG: daniel
+      DOCKER_INFLUXDB_INIT_BUCKET: obd-data
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: supersecretlongadmintokenhash
+    volumes:
+      - influx_data:/var/lib/influxdb2
+      - influx_config:/etc/influxdb2
+    ports:
+      - '8086:8086'
+
+volumes:
+  influx_data:
+  influx_config:
